@@ -10,7 +10,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new MainWindowViewModel();
+        //DataContext = new MainWindowViewModel();
     }
 
     private void Binding(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
