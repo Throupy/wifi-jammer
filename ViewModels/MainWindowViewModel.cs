@@ -337,10 +337,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             }
             AccessPoints = new ObservableCollection<AP>(AccessPoints.OrderByDescending(ap => ap.Clients.Count));
         }
-        catch (System.FormatException)
-        {
-            // TODO: Figure out why this would hit, if it even would?
-        }
+        catch (System.FormatException) { }
         CleanupJammerFiles();
     }
 
