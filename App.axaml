@@ -1,0 +1,19 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="JammerV1.App"
+             xmlns:local="using:JammerV1"
+             xmlns:vm="clr-namespace:JammerV1.ViewModels"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+  <Application.Resources>
+    <local:ViewLocator x:Key="ViewLocator"/>
+  </Application.Resources>
+    <Application.Styles>
+        <FluentTheme />
+      <StyleInclude Source="/Icons.axaml"/>
+    </Application.Styles>
+</Application>
