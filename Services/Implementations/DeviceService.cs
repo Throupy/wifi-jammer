@@ -1,13 +1,11 @@
 using System.Threading.Tasks;
-using Avalonia.Interactivity;
-using Avalonia.Media;
-using JammerV1.Models;
 using System.Globalization;
 using System.Threading;
 using System;
 using SharpPcap;
 using CliWrap;
 using CliWrap.Buffered;
+using JammerV1.Models;
 
 public class DeviceService : IDeviceService {
     public async Task JamClient(Client client) {
@@ -93,13 +91,13 @@ public class DeviceService : IDeviceService {
         }
     }
 
-    public async Task Scan() {
+    public async Task Scan(int secondsToRun) {
         // First, use airodump-ng to get raw output
         using var cancellation_token = new CancellationTokenSource();
         var airodumpCmd = Cli.Wrap("airodump-ng")
             .WithArguments("-a --write-interval 1 -w /home/kali/Desktop/JammerV1/jammer wlan1mon");
 
-        cancellation_token.CancelAfter(TimeSpan.FromSeconds(5));
+        cancellation_token.CancelAfter(TimeSpan.FromSeconds(secondsToRun));
 
         // Execute airodump-ng command with handling for cancellation
         try
@@ -126,6 +124,6 @@ public class DeviceService : IDeviceService {
 
             var result = await sedCmd.ExecuteBufferedAsync();
         }
-        catch (Exception ex) { }
+        catch (Exception) { }
     }
 }

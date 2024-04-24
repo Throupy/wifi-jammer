@@ -1,25 +1,10 @@
-using Avalonia.Interactivity;
-using Avalonia.Media;
-using JammerV1.Models;
-using JammerV1.Views;
-using JammerV1.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using System.Globalization;
-using System.Threading;
+using System.Linq;
 using System;
 using Microsoft.VisualBasic.FileIO;
-using System.Linq;
-using System.Threading.Tasks;
-using SharpPcap;
 using CliWrap;
-using CliWrap.Buffered;
-using Microsoft.VisualBasic;
-using System.Net.WebSockets;
-using System.IO;
+using JammerV1.Models;
 
 public class FileService : IFileService {
     public ObservableCollection<AP> ParseCSV() {
@@ -34,10 +19,10 @@ public class FileService : IFileService {
                 parser.HasFieldsEnclosedInQuotes = true;
                 while (!parser.EndOfData)
                 {
-                    string[] fields = parser.ReadFields();
-                    if (fields.Length == 15)
-                    { // APs have 15 length in CSV
-                        // Only look for SSIDs that we can get the name of TODO : think aobut this ? should this be so?
+                    string[]? fields = parser.ReadFields();
+                    if (fields == null) throw new NullReferenceException("No devices found");
+                    if (fields.Length == 15) // APs have 15 length in CSV
+                    {
                         if (fields[13].Length != 0)
                         {
                             AP ap = new AP
@@ -65,7 +50,7 @@ public class FileService : IFileService {
                     else if (fields.Length == 7)
                     {
                         // Here start processing the clients. For now, add them all to a list.
-                        // After, I will go through the list and add them to their parent APs
+                        // After, I will go through the list and add them to their parent AP's
                         // AP.Clients list.
                         Client client = new Client
                         {
@@ -84,11 +69,10 @@ public class FileService : IFileService {
             // Here associate the clients with their parents.
             foreach (Client client in AllClients)
             {
-                AP parentAp = AccessPoints.Where(x => x.BSSID.Equals(client.BSSID)).FirstOrDefault();
+                AP? parentAp = AccessPoints.Where(x => x.BSSID.Equals(client.BSSID)).FirstOrDefault();
                 // ParentAp might be null here.
                 // This is because we only add APs that we can get the name of
                 // Client devices have BSSIDs of APs that don't exist in our ObservableCollection
-                // See TODO further up - this needs rethinking at some point.
                 if (parentAp != null) { parentAp.Clients.Add(client); }
             }
             AccessPoints = new ObservableCollection<AP>(AccessPoints.OrderByDescending(ap => ap.Clients.Count));

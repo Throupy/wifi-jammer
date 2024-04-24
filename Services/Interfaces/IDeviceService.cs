@@ -4,5 +4,5 @@ using JammerV1.Models;
 public interface IDeviceService {
     Task JamClient(Client client);
     Task JamAP(AP ap);
-    Task Scan();
+    Task Scan(int secondsToRun);
 }
