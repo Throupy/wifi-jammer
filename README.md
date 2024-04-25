@@ -19,4 +19,4 @@ I made this as a learning project, and I have only tested this on my own network
 - [ ] Improve README
 - [X] Add README disclaimer
 - [ ] Add confirmation modal to Jam buttons
-- [ ] Finish UI and Scan device buttons
+- [X] Finish UI and Scan device buttons

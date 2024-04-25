@@ -38,10 +38,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public bool IsDeviceNotConnected => !IsDeviceConnected;
 
     // Commands
-    public ICommand JamCommand { get; }
     public ICommand ScanCommand { get; }
-    public ICommand JamClientCommand { get; }
     public ICommand ToggleJammingCommand { get; }
+    public ICommand FindDeviceCommand { get; }
 
     // Getters and Setters
     public ObservableCollection<AP> AccessPoints
@@ -94,8 +93,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // Register commands
         ScanCommand = new RelayCommand(o => ExecuteScan());
         ToggleJammingCommand = new RelayCommand(o => ToggleJamming(o));
-        // Finish of DI for services
+        // Finish off DI for services
         _deviceService = deviceService;
+        FindDeviceCommand = new RelayCommand(o => _deviceService.OpenDevice());
         // Open the device and update the UI.
         InitializeAsync();
         _fileService = fileService;
