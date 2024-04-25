@@ -20,3 +20,4 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] Add README disclaimer
 - [ ] Add confirmation modal to Jam buttons
 - [X] Finish UI and Scan device buttons
+- [ ] More buttons e.g. restart app button, close app button.
