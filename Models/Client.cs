@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace JammerV1.Models
@@ -50,6 +51,11 @@ namespace JammerV1.Models
         public string Packets { get; set; }
         public string BSSID { get; set; }
         public string ProbedESSIDs { get; set; }
+        public AP ParentAP {get; set;}
+        public int Channel {
+            get => ParentAP.Channel;
+            set => Channel = value;
+        }
 
         // Event declared in INotifyPropertyChanged interface
         public event PropertyChangedEventHandler PropertyChanged;

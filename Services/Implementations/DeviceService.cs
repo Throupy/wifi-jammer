@@ -95,7 +95,7 @@ public class DeviceService : IDeviceService {
     public async Task Jam(IJammableDevice victim) {
         using (var device = _captureDevice) {
             device.Open(DeviceModes.Promiscuous);
-            if (victim is AP ap) { ChangeChannel(ap.Channel); }
+            await ChangeChannel(victim.Channel);
             try
             {
                 byte[] deauthFrame = victim.GenerateDeauthFrame();

@@ -73,7 +73,10 @@ public class FileService : IFileService {
                 // ParentAp might be null here.
                 // This is because we only add APs that we can get the name of
                 // Client devices have BSSIDs of APs that don't exist in our ObservableCollection
-                if (parentAp != null) { parentAp.Clients.Add(client); }
+                if (parentAp != null) { 
+                    parentAp.Clients.Add(client); 
+                    client.ParentAP = parentAp;
+                }
             }
             AccessPoints = new ObservableCollection<AP>(AccessPoints.OrderByDescending(ap => ap.Clients.Count));
         }
