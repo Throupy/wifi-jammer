@@ -63,7 +63,7 @@ public class DeviceService : IDeviceService {
         // Step 1 - check if any device is already in monitor mode - best case scenario
         // Step 2 - Try to send a dummy packet to test if the device can inject packets
         // Step 3 - Loop through remaning devices which passed the above test, and try to put them into monitor mode.
-        foreach(var device in CaptureDeviceList.Instance) {
+        foreach(var device in CaptureDeviceList.New()) {
             try {
                 if (await IsDeviceInMonitorMode(device.Name)) {
                     Console.WriteLine($"Already found {device.Name} in monitor mode, will use that");
@@ -73,7 +73,7 @@ public class DeviceService : IDeviceService {
             } catch (Exception) { }
         }
         
-        foreach(var device in CaptureDeviceList.Instance) {
+        foreach(var device in CaptureDeviceList.New()) {
             // wlan0 capable of injection on my debian dev machine!! WTF!!
             if (device.Name == "wlan0") {continue;}
             device.Open(DeviceModes.Promiscuous);
@@ -85,6 +85,7 @@ public class DeviceService : IDeviceService {
                 await SetMonitorMode(device.Name);
                 _captureDevice =  device as IInjectionDevice;
                 //device.Close();
+                Console.WriteLine($"Set {device.Name} as the device");
                 return;
 
             } catch (PcapException) { }

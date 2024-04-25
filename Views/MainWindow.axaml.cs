@@ -1,3 +1,4 @@
+using System.Security.Principal;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using JammerV1.Models;
@@ -10,6 +11,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        //this.WindowState = WindowState.FullScreen;
         //DataContext = new MainWindowViewModel();
     }
 

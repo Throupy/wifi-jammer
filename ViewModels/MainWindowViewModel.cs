@@ -95,14 +95,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ToggleJammingCommand = new RelayCommand(o => ToggleJamming(o));
         // Finish off DI for services
         _deviceService = deviceService;
-        FindDeviceCommand = new RelayCommand(o => _deviceService.OpenDevice());
+        FindDeviceCommand = new RelayCommand(o => FindDevice());
         // Open the device and update the UI.
-        InitializeAsync();
+        FindDevice();
         _fileService = fileService;
         // Instantiate a new observable collection for holding access points
         AccessPoints = new ObservableCollection<AP>();
     }
 
+    private async Task FindDevice() {
+        await _deviceService.OpenDevice();
+        OnPropertyChanged(nameof(IsDeviceConnected));
+        OnPropertyChanged(nameof(IsDeviceNotConnected));
+    }
     private async void ToggleJamming(object parameter)
     {
         // Object will be passed on based on the item the button is clicked on (client, AP).
