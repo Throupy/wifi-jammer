@@ -10,7 +10,7 @@ I made this as a learning project, and I have only tested this on my own network
 - A case for the screen, I had one 3D printed from a design I found on Thingiverse [(link)](https://www.thingiverse.com/thing:1585924)
 
 ## TODO List
-- [ ] Error handling for no network interfaces detected
+- [X] Error handling for no network interfaces detected
 - [ ] Improve JamAP and JamClient functions if necessary
 - [ ] Figure out channel switching (!!!)
 - [X] Think about splitting up code functionality, all my code in the view model at the moment...

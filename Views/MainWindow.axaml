@@ -43,6 +43,7 @@
             </Grid.ColumnDefinitions>
             <Button 
               Grid.Column="0"
+              IsVisible="{Binding IsDeviceConnected}"
               Content="SCAN"
               Margin="0,0,0,0"
               HorizontalAlignment="Stretch"
@@ -58,8 +59,9 @@
                      VerticalAlignment="Stretch"
                      Margin="15,0">
               <!-- Adjust margin as necessary -->
-              <Path Data="{Binding DeviceConnectionIconGeometry}"
-                    Fill="{Binding DeviceConnectionIconColour}"
+              <Path Data="{StaticResource cellular_data_1_regular}"
+                    Fill="#2ec04f"
+                    IsVisible="{Binding IsDeviceConnected}"
                     Stretch="Uniform"/>
             </Viewbox>
           </Grid>
@@ -107,7 +109,14 @@
               BorderThickness="3,0,0,0" BorderBrush="#17181b">
         <!-- Your content here -->
         <StackPanel VerticalAlignment="Top" Margin="10">
-          <!-- Make sure to bind these TextBlocks to the properties of SelectedAP -->
+          <!-- Text and Icon to indicate no network device detected -->
+            <Path Data="{StaticResource cellular_off_regular}"
+              Fill="Red"
+              Width="300"
+              IsVisible="{Binding IsDeviceNotConnected}"
+              Stretch="Uniform"/>
+            <TextBlock IsVisible="{Binding IsDeviceNotConnected}" Text="No Network Device Detected"/>
+            <TextBlock IsVisible="{Binding IsDeviceNotConnected}" Text="scan button palceohlder"/>
           <StackPanel Orientation="Horizontal" Spacing="10">
             <TextBlock Text="{Binding SelectedAP.ESSID}" FontSize="32" FontWeight="Bold" Foreground="White" />
             <TextBlock Text="{Binding SelectedAP.BSSID}" FontWeight="Light" FontSize="32" Foreground="White" />

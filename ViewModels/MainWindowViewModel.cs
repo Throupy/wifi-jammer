@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Input;
 using Avalonia.Media;
 using Avalonia;
 using Avalonia.Controls;
+using System;
+using System.Threading.Tasks;
 
 namespace JammerV1.ViewModels;
 
@@ -31,12 +34,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
     // Additional Variables
     public bool IsNotScanning => !IsScanning;
     public bool IsAPSelected => SelectedAP != null;
-    public StreamGeometry DeviceConnectionIconGeometry => _deviceService.CaptureDevice != null
-        ? Application.Current.FindResource("cellular_data_1_regular") as StreamGeometry
-        : Application.Current.FindResource("cellular_off_regular") as StreamGeometry;
-
-    public string DeviceConnectionIconColour => _deviceService.CaptureDevice != null ? "Green" : "Red";
-
+    public bool IsDeviceConnected => _deviceService.CaptureDevice != null;
+    public bool IsDeviceNotConnected => !IsDeviceConnected;
 
     // Commands
     public ICommand JamCommand { get; }
@@ -83,6 +82,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
+    public async Task InitializeAsync() {
+        await _deviceService.OpenDevice();
+        OnPropertyChanged(nameof(IsDeviceConnected));
+        OnPropertyChanged(nameof(IsDeviceNotConnected));
+        Console.WriteLine($"Finished, device name is {_deviceService.CaptureDevice.Name}");
+    }
+
     public MainWindowViewModel(IDeviceService deviceService, IFileService fileService)
     {
         // Register commands
@@ -91,9 +97,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // Finish of DI for services
         _deviceService = deviceService;
         // Open the device and update the UI.
-        _deviceService.OpenDevice();
-        OnPropertyChanged(nameof(DeviceConnectionIconGeometry));
-        OnPropertyChanged(nameof(DeviceConnectionIconGeometry));
+        InitializeAsync();
         _fileService = fileService;
         // Instantiate a new observable collection for holding access points
         AccessPoints = new ObservableCollection<AP>();
