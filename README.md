@@ -12,7 +12,7 @@ I made this as a learning project, and I have only tested this on my own network
 ## TODO List
 - [X] Error handling for no network interfaces detected
 - [ ] Improve JamAP and JamClient functions if necessary
-- [ ] Figure out channel switching (!!!)
+- [X] Figure out channel switching (!!!)
 - [X] Think about splitting up code functionality, all my code in the view model at the moment...
 - [X] Configure relative paths for CSV files
 - [ ] Improve README

@@ -8,6 +8,7 @@ public interface IDeviceService {
     Task<bool> SetMonitorMode(string deviceName);
     Task OpenDevice();
     Task JamClient(Client client);
+    Task<bool> ChangeChannel(int channel);
     Task JamAP(AP ap);
     Task Scan(int secondsToRun);
 }

