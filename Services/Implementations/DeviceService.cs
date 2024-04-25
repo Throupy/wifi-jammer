@@ -8,10 +8,19 @@ using CliWrap.Buffered;
 using JammerV1.Models;
 
 public class DeviceService : IDeviceService {
+
+    private IInjectionDevice _captureDevice = null;
+
+    public IInjectionDevice CaptureDevice { get => _captureDevice; }
+
+    public async Task OpenDevice()
+    {
+        // TODO: Here, going to need checks for: permissions, no device available, device can't do monitor mode
+        _captureDevice = CaptureDeviceList.Instance[1];
+        _captureDevice.Open(DeviceModes.Promiscuous);
+    }
+
     public async Task JamClient(Client client) {
-        // TODO: Error handling for no devices, or permission error, etc.
-        var device = CaptureDeviceList.Instance[1];
-        device.Open(DeviceModes.Promiscuous);
         // Need to parse the AP BSSID (string -> bytes)
         string[] bssidParts = client.BSSID.Split(":");
         byte[] bssidBytes = new byte[bssidParts.Length];
@@ -42,7 +51,7 @@ public class DeviceService : IDeviceService {
             while (client.IsJammed)
             {
                 await Task.Delay(100);
-                device.SendPacket(deauthFrame);
+                _captureDevice.SendPacket(deauthFrame);
             }
         }
         catch (PcapException)
@@ -51,14 +60,11 @@ public class DeviceService : IDeviceService {
         }
         finally
         {
-            device.Close();
+            _captureDevice.Close();
         }
     }
 
     public async Task JamAP(AP ap) { 
-        // TODO: Error handling for no devices, or permission error, etc.
-        var device = CaptureDeviceList.Instance[1];
-        device.Open(DeviceModes.Promiscuous);
         // Need to parse the AP BSSID (string -> bytes)
         string[] parts = ap.BSSID.Split(":");
         byte[] bssidBytes = new byte[parts.Length];
@@ -81,13 +87,13 @@ public class DeviceService : IDeviceService {
             while (ap.IsJammed)
             {
                 await Task.Delay(100);
-                device.SendPacket(deauthFrame);
+                _captureDevice.SendPacket(deauthFrame);
             }
         }
         catch (PcapException) { }
         finally
         {
-            device.Close();
+            _captureDevice.Close();
         }
     }
 

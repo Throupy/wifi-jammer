@@ -5,6 +5,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Avalonia.Media;
+using Avalonia;
+using Avalonia.Controls;
 
 namespace JammerV1.ViewModels;
 
@@ -28,6 +31,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
     // Additional Variables
     public bool IsNotScanning => !IsScanning;
     public bool IsAPSelected => SelectedAP != null;
+    public StreamGeometry DeviceConnectionIconGeometry => _deviceService.CaptureDevice != null
+        ? Application.Current.FindResource("cellular_data_1_regular") as StreamGeometry
+        : Application.Current.FindResource("cellular_off_regular") as StreamGeometry;
+
+    public string DeviceConnectionIconColour => _deviceService.CaptureDevice != null ? "Green" : "Red";
+
 
     // Commands
     public ICommand JamCommand { get; }
@@ -81,6 +90,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ToggleJammingCommand = new RelayCommand(o => ToggleJamming(o));
         // Finish of DI for services
         _deviceService = deviceService;
+        // Open the device and update the UI.
+        _deviceService.OpenDevice();
+        OnPropertyChanged(nameof(DeviceConnectionIconGeometry));
+        OnPropertyChanged(nameof(DeviceConnectionIconGeometry));
         _fileService = fileService;
         // Instantiate a new observable collection for holding access points
         AccessPoints = new ObservableCollection<AP>();
