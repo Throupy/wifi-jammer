@@ -7,8 +7,7 @@ public interface IDeviceService {
     Task<bool> IsDeviceInMonitorMode(string deviceName);
     Task<bool> SetMonitorMode(string deviceName);
     Task OpenDevice();
-    Task JamClient(Client client);
+    Task Jam(IJammableDevice victim);
     Task<bool> ChangeChannel(int channel);
-    Task JamAP(AP ap);
     Task Scan(int secondsToRun);
 }

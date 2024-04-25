@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Globalization;
 
 public static class Constants {
     public static class Paths {
@@ -13,5 +14,17 @@ public static class Constants {
         public const string Red = "#f23f42";
         public const string DarkGrey = "#282c34";
         public const string Grey = "#404249";
+    }
+
+    public static class Utils {
+        public static byte[] ParseMacAddress(string mac) {
+            string[] macParts = mac.Split(":");
+            byte[] macBytes = new byte[macParts.Length];
+            for (int i = 0; i < macParts.Length; i++)
+            {
+                macBytes[i] = byte.Parse(macParts[i], NumberStyles.HexNumber);
+            }
+            return macBytes;
+        }
     }
 }

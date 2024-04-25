@@ -110,11 +110,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             case AP ap:
                 ap.IsJammed = !ap.IsJammed;
-                if (ap.IsJammed) await _deviceService.JamAP(ap);
+                if (ap.IsJammed) await _deviceService.Jam(ap);
                 break;
             case Client client:
                 client.IsJammed = !client.IsJammed;
-                if (client.IsJammed) await _deviceService.JamClient(client);
+                if (client.IsJammed) await _deviceService.Jam(client);
                 break;
         }
     }
