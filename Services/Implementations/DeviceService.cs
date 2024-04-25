@@ -95,7 +95,7 @@ public class DeviceService : IDeviceService {
         // First, use airodump-ng to get raw output
         using var cancellation_token = new CancellationTokenSource();
         var airodumpCmd = Cli.Wrap("airodump-ng")
-            .WithArguments("-a --write-interval 1 -w /home/kali/Desktop/JammerV1/jammer wlan1mon");
+            .WithArguments($"-a --write-interval 1 -w {Constants.Paths.BaseDirectory}/jammer wlan1mon");
 
         cancellation_token.CancelAfter(TimeSpan.FromSeconds(secondsToRun));
 
@@ -106,10 +106,6 @@ public class DeviceService : IDeviceService {
         }
         catch (OperationCanceledException) { }
 
-        // Define paths for input and output
-        string inputFilePath = "/home/kali/Desktop/JammerV1/jammer-01.csv";
-        string outputFilePath = "/home/kali/Desktop/JammerV1/jammer-01-cleaned.csv";
-
         // Now run the sed command to filter output
         try
         {
@@ -118,9 +114,9 @@ public class DeviceService : IDeviceService {
                     "-e", "/^[[:space:]]*$/d",
                     "-e", "/^BSSID/d",  
                     "-e", "/^Station MAC/d",
-                    inputFilePath
+                    Constants.Paths.DirtyJammerOutputFilePath
                 })
-                .WithStandardOutputPipe(PipeTarget.ToFile(outputFilePath));
+                .WithStandardOutputPipe(PipeTarget.ToFile(Constants.Paths.CleanedJammerOutputFilePath));
 
             var result = await sedCmd.ExecuteBufferedAsync();
         }

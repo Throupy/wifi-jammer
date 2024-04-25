@@ -12,7 +12,7 @@ public class FileService : IFileService {
         List<Client> AllClients = new List<Client>();
         try
         {
-            using (TextFieldParser parser = new TextFieldParser("/home/kali/Desktop/JammerV1/jammer-01-cleaned.csv"))
+            using (TextFieldParser parser = new TextFieldParser(Constants.Paths.CleanedJammerOutputFilePath))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(",");
@@ -83,7 +83,7 @@ public class FileService : IFileService {
 
     public void CleanupJammerFiles() {
         var command = Cli.Wrap("/bin/bash")
-            .WithArguments("-c \"rm -f /home/kali/Desktop/JammerV1/jammer-0*\"")
+            .WithArguments($"-c \"rm -f {Constants.Paths.BaseDirectory}/jammer-0*\"")
             .ExecuteAsync();
     }
 }

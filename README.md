@@ -14,7 +14,7 @@ I made this as a learning project, and I have only tested this on my own network
 - [ ] Improve JamAP and JamClient functions if necessary
 - [ ] Figure out channel switching (!!!)
 - [X] Think about splitting up code functionality, all my code in the view model at the moment...
-- [ ] Configure relative paths for CSV files
+- [X] Configure relative paths for CSV files
 - [ ] Improve README
 - [X] Add README disclaimer
 - [ ] Add confirmation modal to Jam buttons
