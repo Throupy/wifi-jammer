@@ -1,10 +1,11 @@
 # Wi-Fi Jammer
-Wi-Fi Jammer (De-authenticator) application with an Avalonia UI frontend. Designed to run on a Raspberry Pi 3B+ with the official touch screen
+<p align="center">
+Wi-Fi Jammer (De-authenticator) application with an Avalonia UI frontend. Designed to run on a Raspberry Pi 3B+ with the official touch screen.<br>
+  <img src="Assets/icon.png" alt="Alt text" width="200">
+</p>
 
-<div style="text-align: center;">
-  <img src="Assets/icon.png" alt="Alt text" width="400">
-</div>
 <hr>
+
 
 ![Demo Image](Assets/demo-image-new.png)
 
