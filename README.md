@@ -8,7 +8,7 @@ Wi-Fi Jammer (De-authenticator) application with an Avalonia UI frontend. Design
 <hr>
 
 
-<img src="Assets/demo-image-new.png" alt="Alt text">
+<img src="Assets/demo-image-new.png" alt="Alt text" width="10000">
 
 # IMPORTANT - DISCLAIMER
 I made this as a learning project, and I have only tested this on my own networks. I do not promote to use of, or take responsibility for any malicious actions performed by this tool. Make sure you obtain permission from the network owner before you test this on any network. The term 'jammer' is used very loosely - this device simply sends de-authentication frames to devices on a network, it does not actually Jam signals. 
