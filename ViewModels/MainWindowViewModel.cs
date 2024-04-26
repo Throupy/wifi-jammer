@@ -11,6 +11,7 @@ using Avalonia;
 using Avalonia.Controls;
 using System;
 using System.Threading.Tasks;
+using SharpPcap;
 
 namespace JammerV1.ViewModels;
 

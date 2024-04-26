@@ -1,5 +1,13 @@
 # Wi-Fi Jammer
 Wi-Fi Jammer (De-authenticator) application with an Avalonia UI frontend. Designed to run on a Raspberry Pi 3B+ with the official touch screen
+
+<div style="text-align: center;">
+  <img src="Assets/icon.png" alt="Alt text" width="150">
+</div>
+<hr>
+
+![Demo Image](Assets/demo-image.png)
+
 # IMPORTANT - DISCLAIMER
 I made this as a learning project, and I have only tested this on my own networks. I do not promote to use of, or take responsibility for any malicious actions performed by this tool. Make sure you obtain permission from the network owner before you test this on any network. The term 'jammer' is used very loosely - this device simply sends de-authentication frames to devices on a network, it does not actually Jam signals. 
 
@@ -16,7 +24,7 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] Figure out channel switching (!!!)
 - [X] Think about splitting up code functionality, all my code in the view model at the moment...
 - [X] Configure relative paths for CSV files
-- [ ] Improve README
+- [X] Improve README
 - [X] Add README disclaimer
 - [ ] Add confirmation modal to Jam buttons
 - [X] Finish UI and Scan device buttons
