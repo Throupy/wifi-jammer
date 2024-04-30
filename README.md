@@ -31,3 +31,6 @@ I made this as a learning project, and I have only tested this on my own network
 - [ ] Add confirmation modal to Jam buttons
 - [X] Finish UI and Scan device buttons
 - [ ] More buttons e.g. restart app button, close app button.
+- [ ] Add Device guessing based on MAC oui
+- [ ] Implement native scanning (not using aircrack)
+- [ ] Pictures of device for README
