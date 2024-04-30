@@ -113,6 +113,7 @@
         <!-- Your content here -->
         <StackPanel VerticalAlignment="Top" Margin="10">
           <!-- Text and Icon to indicate no network device detected -->
+            <Button Content="Close" Background="#f23f42" HorizontalAlignment="Right" Command="{Binding CloseCommand}"/>
             <Path Data="{StaticResource cellular_off_regular}"
               Fill="Red"
               Width="150"

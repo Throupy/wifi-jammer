@@ -12,6 +12,7 @@ using Avalonia.Controls;
 using System;
 using System.Threading.Tasks;
 using SharpPcap;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace JammerV1.ViewModels;
 
@@ -42,6 +43,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand ScanCommand { get; }
     public ICommand ToggleJammingCommand { get; }
     public ICommand FindDeviceCommand { get; }
+    public ICommand CloseCommand { get; }
 
     // Getters and Setters
     public ObservableCollection<AP> AccessPoints
@@ -94,6 +96,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // Register commands
         ScanCommand = new RelayCommand(o => ExecuteScan());
         ToggleJammingCommand = new RelayCommand(o => ToggleJamming(o));
+        CloseCommand = new RelayCommand(ExecuteClose);
         // Finish off DI for services
         _deviceService = deviceService;
         FindDeviceCommand = new RelayCommand(o => FindDevice());
@@ -102,6 +105,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
         _fileService = fileService;
         // Instantiate a new observable collection for holding access points
         AccessPoints = new ObservableCollection<AP>();
+    }
+
+    private void ExecuteClose(object parameter) {
+        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
+            desktop.Shutdown();
+        }
     }
 
     private async Task FindDevice() {
