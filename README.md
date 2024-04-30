@@ -33,3 +33,4 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] More buttons e.g. restart app button, close app button.
 - [ ] Native scanning (not using air crack)
 - [ ] Add OUI-based device guessing from MAC address
+- [ ] Add pictures to README
