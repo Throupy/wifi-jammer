@@ -87,7 +87,7 @@
                 <Border Padding="5" Margin="0" Background="#404040" CornerRadius="5">
                   <StackPanel Spacing="4">
                     <StackPanel Orientation="Horizontal" Spacing="10">
-                      <TextBlock Text="{Binding ESSID}" FontWeight="Bold" FontSize="16" Foreground="White"/>
+                      <TextBlock Text="{Binding SSID}" FontWeight="Bold" FontSize="16" Foreground="White"/>
                       <Path
                         Data="{Binding Power, Converter={StaticResource SignalStrengthToIconConverter}}"
                         Fill="{Binding Power, Converter={StaticResource SignalStrengthToColourConverter}}"
@@ -134,7 +134,7 @@
               HorizontalAlignment="Center"
               Command="{Binding FindDeviceCommand}"/>
           <StackPanel Orientation="Horizontal" Spacing="10">
-            <TextBlock Text="{Binding SelectedAP.ESSID}" FontSize="32" FontWeight="Bold" Foreground="White" />
+            <TextBlock Text="{Binding SelectedAP.SSID}" FontSize="32" FontWeight="Bold" Foreground="White" />
             <TextBlock Text="{Binding SelectedAP.BSSID}" FontWeight="Light" FontSize="32" Foreground="White" />
           </StackPanel>
           <StackPanel Orientation="Horizontal" Spacing="10">

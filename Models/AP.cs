@@ -43,14 +43,9 @@ namespace JammerV1.Models
             return deauthFrame;
         }
         public string BSSID { get; set; }
+        public string SSID { get; set; }
         public int Channel { get; set; }
-        public int Speed { get; set; }
-        public string Privacy { get; set; }
-        public string Cipher { get; set; }
-        public string Authentication { get; set; }
         public int Power { get; set; }
-        public string ESSID { get; set; }
-        public string Key { get; set; }
         public List<Client> Clients { get; set; }
 
         // Event declared in INotifyPropertyChanged interface

@@ -29,13 +29,8 @@ public class FileService : IFileService {
                             {
                                 BSSID = fields[0].Trim(),
                                 Channel = int.Parse(fields[3].Trim()),
-                                Speed = int.Parse(fields[4].Trim()),
-                                Privacy = fields[5].Trim(),
-                                Cipher = fields[6].Trim(),
-                                Authentication = fields[7].Trim(),
                                 Power = Math.Abs(int.Parse(fields[8].Trim())),
-                                ESSID = fields[13].Trim(),
-                                Key = fields.Length > 14 ? fields[14].Trim() : string.Empty,  // Handle optional last field
+                                SSID = fields[13].Trim(),
                                 Clients = new List<Client>()
                             };
                             AccessPoints.Add(ap);
@@ -49,10 +44,8 @@ public class FileService : IFileService {
                         Client client = new Client
                         {
                             StationMAC = fields[0],
-                            Power = fields[3],
-                            Packets = fields[4],
+                            Power = Int32.Parse(fields[3]),
                             BSSID = fields[5],
-                            ProbedESSIDs = fields[6]
                         };
                         AllClients.Add(client);
                     }

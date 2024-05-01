@@ -45,10 +45,8 @@ namespace JammerV1.Models
             return deauthFrame;
         }
         public string StationMAC { get; set; }
-        public string Power { get; set; }
-        public string Packets { get; set; }
         public string BSSID { get; set; }
-        public string ProbedESSIDs { get; set; }
+        public int Power { get; set; }
         public AP ParentAP {get; set;}
         public int Channel {
             get => ParentAP.Channel;
