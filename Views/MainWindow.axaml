@@ -69,7 +69,6 @@
             </Viewbox>
           </Grid>
 
-
           <TextBlock Text="Scanning..." IsVisible="{Binding IsScanning}"
            HorizontalAlignment="Center"/>
 

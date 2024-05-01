@@ -28,18 +28,12 @@ public class FileService : IFileService {
                             AP ap = new AP
                             {
                                 BSSID = fields[0].Trim(),
-                                FirstTimeSeen = DateTime.Parse(fields[1].Trim()),
-                                LastTimeSeen = DateTime.Parse(fields[2].Trim()),
                                 Channel = int.Parse(fields[3].Trim()),
                                 Speed = int.Parse(fields[4].Trim()),
                                 Privacy = fields[5].Trim(),
                                 Cipher = fields[6].Trim(),
                                 Authentication = fields[7].Trim(),
                                 Power = Math.Abs(int.Parse(fields[8].Trim())),
-                                NumberOfBeacons = int.Parse(fields[9].Trim()),
-                                NumberOfIV = int.Parse(fields[10].Trim()),
-                                LANIP = fields[11].Trim(),
-                                IDLength = int.Parse(fields[12].Trim()),
                                 ESSID = fields[13].Trim(),
                                 Key = fields.Length > 14 ? fields[14].Trim() : string.Empty,  // Handle optional last field
                                 Clients = new List<Client>()
@@ -55,8 +49,6 @@ public class FileService : IFileService {
                         Client client = new Client
                         {
                             StationMAC = fields[0],
-                            FirstTimeSeen = DateTime.Parse(fields[1]),
-                            LastTimeSeen = DateTime.Parse(fields[2]),
                             Power = fields[3],
                             Packets = fields[4],
                             BSSID = fields[5],
