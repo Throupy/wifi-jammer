@@ -145,9 +145,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // This happens when the "SCAN" button is pressed
         AccessPoints.Clear();
         IsScanning = true; // Updates UI
-        await _deviceService.Scan(5); // Performs the actual scan, runs for 5 seconds.
-        AccessPoints = _fileService.ParseCSV(); // Parse resulting CSV
-        _fileService.CleanupJammerFiles(); // Remove jammer files
+        AccessPoints = await _deviceService.Scan(5); // Perform the scan, runs for 5 seconds.
         IsScanning = false; // Update UI again, this time it will show results from this.AccessPoints.
     }
 

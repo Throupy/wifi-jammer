@@ -1,6 +1,11 @@
 using System.Threading.Tasks;
 using JammerV1.Models;
 using SharpPcap;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System;
+using Microsoft.VisualBasic.FileIO;
 
 public interface IDeviceService {
     IInjectionDevice CaptureDevice { get; }
@@ -9,5 +14,5 @@ public interface IDeviceService {
     Task OpenDevice();
     Task Jam(IJammableDevice victim);
     Task<bool> ChangeChannel(int channel);
-    Task Scan(int secondsToRun);
+    Task<ObservableCollection<AP>> Scan(int secondsToRun);
 }
