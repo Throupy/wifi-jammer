@@ -21,7 +21,6 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
         services.AddSingleton<IDeviceService, DeviceService>();
-        services.AddSingleton<IFileService, FileService>();
         services.AddTransient<MainWindowViewModel>();
         _serviceProvider = services.BuildServiceProvider();
 

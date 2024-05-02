@@ -31,7 +31,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     // Services
     private readonly IDeviceService _deviceService;
-    private readonly IFileService _fileService;
 
     // Private Variables
     private ObservableCollection<AP> _accessPoints;
@@ -97,7 +96,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         Console.WriteLine($"Finished, device name is {_deviceService.CaptureDevice.Name}");
     }
 
-    public MainWindowViewModel(IDeviceService deviceService, IFileService fileService)
+    public MainWindowViewModel(IDeviceService deviceService)
     {
         // Register commands
         ScanCommand = new RelayCommand(o => ExecuteScan());
@@ -108,7 +107,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         FindDeviceCommand = new RelayCommand(o => FindDevice());
         // Open the device and update the UI.
         FindDevice();
-        _fileService = fileService;
         // Instantiate a new observable collection for holding access points
         AccessPoints = new ObservableCollection<AP>();
     }

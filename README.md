@@ -34,5 +34,5 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] Native scanning (not using air crack)
 - [ ] Add OUI-based device guessing from MAC address
 - [ ] Add pictures to README
-- [ ] Remove FileService and Artifacts
+- [X] Remove FileService and Artifacts
 - [ ] Native Scanning - Null function isn't the only client communication. Need to work on native client detection!!
