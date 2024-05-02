@@ -24,6 +24,7 @@ public class DeviceService : IDeviceService {
 
     private static ObservableCollection<AP> AccessPoints = new ObservableCollection<AP>();
     private static List<Client> AllClients = new List<Client>();
+    private static List<BlockAckPacket> BlockAcks = new List<BlockAckPacket>();
 
     public async Task<bool> IsDeviceInMonitorMode(string deviceName) {
         // Trying to avoid dependency on aircrack-ng suite - use iwconfig with CliWrap.
@@ -92,12 +93,10 @@ public class DeviceService : IDeviceService {
                 device.SendPacket(dummyPacket);
                 await SetMonitorMode(device.Name);
                 _captureDevice =  device as IInjectionDevice;
-                //device.Close();
                 Console.WriteLine($"Set {device.Name} as the device");
                 return;
 
             } catch (PcapException) { }
-              //finally { device.Close(); }
         }
     }
 
@@ -121,37 +120,6 @@ public class DeviceService : IDeviceService {
     }
 
     public async Task<ObservableCollection<AP>> Scan(int secondsToRun) {
-        // First, use airodump-ng to get raw output
-        /*
-        using var cancellation_token = new CancellationTokenSource();
-        var airodumpCmd = Cli.Wrap("airodump-ng")
-            .WithArguments($"-a --write-interval 1 -w {Constants.Paths.BaseDirectory}/jammer {_captureDevice.Name}");
-
-        cancellation_token.CancelAfter(TimeSpan.FromSeconds(secondsToRun));
-
-        // Execute airodump-ng command with handling for cancellation
-        try
-        {
-            await airodumpCmd.ExecuteAsync(cancellation_token.Token);
-        }
-        catch (OperationCanceledException) { }
-
-        // Now run the sed command to filter output
-        try
-        {
-            var sedCmd = Cli.Wrap("sed")
-                .WithArguments(new[] {
-                    "-e", "/^[[:space:]]*$/d",
-                    "-e", "/^BSSID/d",  
-                    "-e", "/^Station MAC/d",
-                    Constants.Paths.DirtyJammerOutputFilePath
-                })
-                .WithStandardOutputPipe(PipeTarget.ToFile(Constants.Paths.CleanedJammerOutputFilePath));
-
-            var result = await sedCmd.ExecuteBufferedAsync();
-        }
-        catch (Exception) { }
-        */
         // Register handler function
         using (var device = _captureDevice as ICaptureDevice) {
             device.OnPacketArrival += new PacketArrivalEventHandler(
@@ -166,6 +134,33 @@ public class DeviceService : IDeviceService {
             await Task.Delay(secondsToRun * 1000);
             device.StopCapture();
             
+            // Parse BlockAcks
+            foreach (BlockAckPacket blockAck in BlockAcks)
+            {
+                Client? client = null;
+                if (AccessPoints.Any(ap => ap.BSSID == blockAck.SourceAddress)) {
+                    // The source address is the sender - this is an AP sending to a client
+                    client = new Client {
+                        BSSID = blockAck.SourceAddress,
+                        StationMAC = blockAck.DestinationAddress,
+                        Power = 10
+                    };
+                }
+                if (AccessPoints.Any(ap => ap.BSSID == blockAck.DestinationAddress)) {
+                    // AP is the destination - client to sending to AP.
+                    client = new Client {
+                        BSSID = blockAck.DestinationAddress,
+                        StationMAC = blockAck.SourceAddress,
+                        Power = 10
+                    };
+                }
+                if (client != null) {
+                    if (!AllClients.Any(c => c.StationMAC == client.StationMAC)) {
+                        AllClients.Add(client);
+                    }
+                }
+            }
+
             // Associate clients and APs
             foreach (Client client in AllClients)
             {
@@ -175,7 +170,7 @@ public class DeviceService : IDeviceService {
                     client.ParentAP = parentAp;
                 }
             }
-            AccessPoints = new ObservableCollection<AP>(AccessPoints.OrderByDescending(ap => ap.Clients.Count));            
+            AccessPoints = new ObservableCollection<AP>(AccessPoints.OrderByDescending(ap => ap.Clients.Count));  
             return AccessPoints;
         }
     }
@@ -204,6 +199,7 @@ public class DeviceService : IDeviceService {
         // packet.Data[18] contains information about what type of message the packet contains:
         // 0x80 - Beacon frame - handle "scanning" for APs
         // 0x48 - null function - communication between AP and a client
+        // 0x94 - 802.11 Block Ack
         switch (packet.Data[18])
         {
             case 0x80:
@@ -257,24 +253,48 @@ public class DeviceService : IDeviceService {
                 }
                 break;
             case 0x48:
-                string StationMAC = BitConverter.ToString(ExtractRange(
+                string Station_MAC = BitConverter.ToString(ExtractRange(
                     packet.Data, 28, 6
                 )).Replace("-", ":");
 
                 string Client_BSSID = BitConverter.ToString(ExtractRange(
-                    packet.Data, 34, 6
+                    packet.Data, 22, 6
                 )).Replace("-", ":");
 
-                int Client_power = packet.Data[14] - 256;
+                int power = packet.Data[14] - 256;
 
+                // If we haven't already found the client
                 if(!AllClients.Any(client => client.BSSID == Client_BSSID)) {
                     Client client = new Client {
                         BSSID = Client_BSSID,
-                        StationMAC = StationMAC,
-                        Power = Client_power
+                        StationMAC = Station_MAC,
+                        Power = power
                     };
                     AllClients.Add(client);
                 }
+                break;
+            case 0x94:
+                /*
+                This belongs to a 'block ack' frame. These can be sent client to AP or AP to client. There's 
+                no way of telling which way round this is from the frame itself, so will need to check against recognized APs.
+                Will do this after (in Scan()), so we know all recognized APs.
+                */ 
+                string src_address = BitConverter.ToString(ExtractRange(
+                    packet.Data, 28, 6
+                )).Replace("-", ":");
+
+                string dst_address = BitConverter.ToString(ExtractRange(
+                    packet.Data, 22, 6
+                )).Replace("-", ":");
+
+                int blockack_power = packet.Data[14] - 256;
+
+                BlockAckPacket blockAckPacket = new BlockAckPacket {
+                    SourceAddress = src_address,
+                    DestinationAddress = dst_address,
+                    Power = blockack_power
+                };
+                BlockAcks.Add(blockAckPacket);
                 break;
             default:
                 break;
