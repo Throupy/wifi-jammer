@@ -23,6 +23,7 @@ namespace JammerV1.ViewModels
     public class ClientInfoWindowViewModel : INotifyPropertyChanged
     {
         private Client _client;
+        public ICommand CloseCommand { get; }
 
         // Class name the same.. use an _ i guess!
         public Client _Client {
@@ -36,6 +37,15 @@ namespace JammerV1.ViewModels
         public ClientInfoWindowViewModel(Client client)
         {
             _Client = client;
+            CloseCommand = new RelayCommand(ExecuteClose);
+        }
+
+        private void ExecuteClose(object parameter)
+        {
+            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.Shutdown();
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

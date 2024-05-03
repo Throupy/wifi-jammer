@@ -5,15 +5,41 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ia="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="480"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="480"
         x:Class="JammerV1.Views.ClientInfoWindow"
         x:DataType="vm:MainWindowViewModel"
         x:Name="rootWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="JammerV1">
-
-    <StackPanel>
-        <TextBlock Text="{Binding .}"/>
+  <StackPanel Background="#2b2d31">
+    <StackPanel Orientation="Horizontal" Spacing="35" Margin="5">
+      <TextBlock FontSize="24" 
+                 Foreground="White" 
+                 Text="Client Information"/>
+      <Button FontSize="12"
+              Foreground="White"
+              Background="#f23f42"
+              Content="Close"
+              HorizontalAlignment="Right"/>
     </StackPanel>
-
+    <StackPanel Spacing="10" Margin="5">
+      <StackPanel Spacing="20" Orientation="Horizontal">
+        <TextBlock FontWeight="ExtraBold" Foreground="White" Text="MAC: "/>
+        <TextBlock Foreground="White" Text="AA:BB:CC:DD:EE:FF"/>
+      </StackPanel>
+      <StackPanel Spacing="20" Orientation="Horizontal">
+        <TextBlock FontWeight="ExtraBold" Foreground="White" Text="Parent AP: "/>
+        <TextBlock Foreground="White" Text="EXAMPLE_AP_NAME"/>
+      </StackPanel>
+      <StackPanel Spacing="20" Orientation="Horizontal">
+        <TextBlock FontWeight="ExtraBold" Foreground="White" Text="Signal Strength: "/>
+        <TextBlock Foreground="White" Text="39dBm"/>
+      </StackPanel>
+      <!-- Need to do this stuff - currently isn't on Client object -->
+      <StackPanel Spacing="20" Orientation="Horizontal">
+        <TextBlock FontWeight="ExtraBold" Foreground="White" Text="First Seen: "/>
+        <TextBlock Foreground="White" Text="1620hrs"/>
+      </StackPanel>
+    </StackPanel>
+  </StackPanel>
 </Window>
