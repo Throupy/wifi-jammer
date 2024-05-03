@@ -1,5 +1,6 @@
 ﻿using JammerV1.Models;
 using JammerV1.Commands;
+using JammerV1.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -49,6 +50,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand ToggleJammingCommand { get; }
     public ICommand FindDeviceCommand { get; }
     public ICommand CloseCommand { get; }
+    public ICommand ViewClientInfoCommand { get; }
 
     // Getters and Setters
     public ObservableCollection<AP> AccessPoints
@@ -101,6 +103,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         // Register commands
         ScanCommand = new RelayCommand(o => ExecuteScan());
         ToggleJammingCommand = new RelayCommand(o => ToggleJamming(o));
+        ViewClientInfoCommand = new RelayCommand(o => ViewClientInfo(o));
         CloseCommand = new RelayCommand(ExecuteClose);
         // Finish off DI for services
         _deviceService = deviceService;
@@ -122,6 +125,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(IsDeviceConnected));
         OnPropertyChanged(nameof(IsDeviceNotConnected));
     }
+
+    private void ViewClientInfo(object _client) {
+        Client client = _client as Client;
+        var clientInfoWindow = new ClientInfoWindow {
+            DataContext = new ClientInfoWindowViewModel(client)
+        };
+        clientInfoWindow.Show();
+    }
+
     private async void ToggleJamming(object parameter)
     {
         // Object will be passed on based on the item the button is clicked on (client, AP).
