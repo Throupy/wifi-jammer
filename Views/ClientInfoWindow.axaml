@@ -20,6 +20,7 @@
               Foreground="White"
               Background="#f23f42"
               Content="Close"
+              Command="{Binding CloseCommand}"
               HorizontalAlignment="Right"/>
     </StackPanel>
     <StackPanel Spacing="10" Margin="5">
