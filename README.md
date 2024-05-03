@@ -35,4 +35,7 @@ I made this as a learning project, and I have only tested this on my own network
 - [ ] Add OUI-based device guessing from MAC address
 - [ ] Add pictures to README
 - [X] Remove FileService and Artifacts
-- [X] Native Scanning - Null function isn't the only client communication. Need to work on native client detection!!lo
+- [X] Native Scanning - Null function isn't the only client communication. Need to work on native client detection!!
+- [X] Client information popup dialog page with close button
+- [ ] In native scanning i'm setting power to 10 - need to actually get power
+- [ ] Get more fields from native scanning, add into Client class and ClientInfoWindow

@@ -1,13 +1,12 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:JammerV1.ViewModels"
-        xmlns:conv="clr-namespace:JammerV1.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ia="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
-        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="480"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
         x:Class="JammerV1.Views.ClientInfoWindow"
-        x:DataType="vm:MainWindowViewModel"
+        x:DataType="vm:ClientInfoWindowViewModel"
         x:Name="rootWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="JammerV1">
@@ -21,20 +20,21 @@
               Background="#f23f42"
               Content="Close"
               Command="{Binding CloseCommand}"
+              CommandParameter="{Binding $parent[ia:Window]}"
               HorizontalAlignment="Right"/>
     </StackPanel>
     <StackPanel Spacing="10" Margin="5">
       <StackPanel Spacing="20" Orientation="Horizontal">
         <TextBlock FontWeight="ExtraBold" Foreground="White" Text="MAC: "/>
-        <TextBlock Foreground="White" Text="AA:BB:CC:DD:EE:FF"/>
+        <TextBlock Foreground="White" Text="{Binding client.StationMAC}"/>
       </StackPanel>
       <StackPanel Spacing="20" Orientation="Horizontal">
         <TextBlock FontWeight="ExtraBold" Foreground="White" Text="Parent AP: "/>
-        <TextBlock Foreground="White" Text="EXAMPLE_AP_NAME"/>
+        <TextBlock Foreground="White" Text="{Binding client.BSSID}"/>
       </StackPanel>
       <StackPanel Spacing="20" Orientation="Horizontal">
         <TextBlock FontWeight="ExtraBold" Foreground="White" Text="Signal Strength: "/>
-        <TextBlock Foreground="White" Text="39dBm"/>
+        <TextBlock Foreground="White" Text="{Binding client.Power}"/>
       </StackPanel>
       <!-- Need to do this stuff - currently isn't on Client object -->
       <StackPanel Spacing="20" Orientation="Horizontal">

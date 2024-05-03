@@ -26,25 +26,25 @@ namespace JammerV1.ViewModels
         public ICommand CloseCommand { get; }
 
         // Class name the same.. use an _ i guess!
-        public Client _Client {
+        public Client client {
             get => _client;
             set {
                 _client = value;
-                OnPropertyChanged(nameof(_Client));
+                OnPropertyChanged(nameof(client));
             }
         }
 
-        public ClientInfoWindowViewModel(Client client)
+        public ClientInfoWindowViewModel(Client p_client)
         {
-            _Client = client;
+            client = p_client;
             CloseCommand = new RelayCommand(ExecuteClose);
         }
 
         private void ExecuteClose(object parameter)
         {
-            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            if (parameter is Window window)
             {
-                desktop.Shutdown();
+                window.Close();
             }
         }
 
