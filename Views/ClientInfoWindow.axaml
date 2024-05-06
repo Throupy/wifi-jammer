@@ -34,7 +34,10 @@
       </StackPanel>
       <StackPanel Spacing="20" Orientation="Horizontal">
         <TextBlock FontWeight="ExtraBold" Foreground="White" Text="Signal Strength: "/>
-        <TextBlock Foreground="White" Text="{Binding client.Power}"/>
+        <TextBlock Foreground="White">
+          <Run Text="{Binding client.Power}"/>
+          <Run Text="dBm"/>
+        </TextBlock>
       </StackPanel>
       <!-- Need to do this stuff - currently isn't on Client object -->
       <StackPanel Spacing="20" Orientation="Horizontal">

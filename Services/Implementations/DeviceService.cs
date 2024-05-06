@@ -143,7 +143,7 @@ public class DeviceService : IDeviceService {
                     client = new Client {
                         BSSID = blockAck.SourceAddress,
                         StationMAC = blockAck.DestinationAddress,
-                        Power = 10
+                        Power = Math.Abs(blockAck.Power)
                     };
                 }
                 if (AccessPoints.Any(ap => ap.BSSID == blockAck.DestinationAddress)) {
@@ -151,7 +151,7 @@ public class DeviceService : IDeviceService {
                     client = new Client {
                         BSSID = blockAck.DestinationAddress,
                         StationMAC = blockAck.SourceAddress,
-                        Power = 10
+                        Power = Math.Abs(blockAck.Power)
                     };
                 }
                 if (client != null) {
