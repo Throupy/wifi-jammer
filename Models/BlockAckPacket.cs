@@ -9,5 +9,6 @@ namespace JammerV1.Models
         public string SourceAddress { get; set; }
         public string DestinationAddress {get; set;}
         public int Power {get; set;}
+        public DateTime DetectedAt { get; set; }
     }
 }

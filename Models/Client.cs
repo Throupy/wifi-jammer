@@ -44,6 +44,7 @@ namespace JammerV1.Models
             };
             return deauthFrame;
         }
+        public DateTime DetectedAt { get; set; }
         public string StationMAC { get; set; }
         public string BSSID { get; set; }
         public int Power { get; set; }

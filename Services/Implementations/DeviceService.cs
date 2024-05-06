@@ -143,7 +143,8 @@ public class DeviceService : IDeviceService {
                     client = new Client {
                         BSSID = blockAck.SourceAddress,
                         StationMAC = blockAck.DestinationAddress,
-                        Power = Math.Abs(blockAck.Power)
+                        Power = Math.Abs(blockAck.Power),
+                        DetectedAt = blockAck.DetectedAt
                     };
                 }
                 if (AccessPoints.Any(ap => ap.BSSID == blockAck.DestinationAddress)) {
@@ -151,7 +152,8 @@ public class DeviceService : IDeviceService {
                     client = new Client {
                         BSSID = blockAck.DestinationAddress,
                         StationMAC = blockAck.SourceAddress,
-                        Power = Math.Abs(blockAck.Power)
+                        Power = Math.Abs(blockAck.Power),
+                        DetectedAt = blockAck.DetectedAt
                     };
                 }
                 if (client != null) {
@@ -199,7 +201,7 @@ public class DeviceService : IDeviceService {
         // packet.Data[18] contains information about what type of message the packet contains:
         // 0x80 - Beacon frame - handle "scanning" for APs
         // 0x48 - null function - communication between AP and a client
-        // 0x94 - 802.11 Block Ack
+        // 0x94 - 802.11 Block Ack - clients
         switch (packet.Data[18])
         {
             case 0x80:
@@ -268,7 +270,8 @@ public class DeviceService : IDeviceService {
                     Client client = new Client {
                         BSSID = Client_BSSID,
                         StationMAC = Station_MAC,
-                        Power = power
+                        Power = power,
+                        DetectedAt = e.Header.Timeval.Date
                     };
                     AllClients.Add(client);
                 }
@@ -292,7 +295,8 @@ public class DeviceService : IDeviceService {
                 BlockAckPacket blockAckPacket = new BlockAckPacket {
                     SourceAddress = src_address,
                     DestinationAddress = dst_address,
-                    Power = blockack_power
+                    Power = blockack_power,
+                    DetectedAt = e.Header.Timeval.Date
                 };
                 BlockAcks.Add(blockAckPacket);
                 break;

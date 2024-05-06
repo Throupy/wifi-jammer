@@ -42,7 +42,7 @@
       <!-- Need to do this stuff - currently isn't on Client object -->
       <StackPanel Spacing="20" Orientation="Horizontal">
         <TextBlock FontWeight="ExtraBold" Foreground="White" Text="First Seen: "/>
-        <TextBlock Foreground="White" Text="1620hrs"/>
+        <TextBlock Foreground="White" Text="{Binding client.DetectedAt}"/>
       </StackPanel>
     </StackPanel>
   </StackPanel>
