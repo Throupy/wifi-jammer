@@ -28,7 +28,6 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] Configure relative paths for CSV files
 - [X] Improve README
 - [X] Add README disclaimer
-- [ ] Add confirmation modal to Jam buttons
 - [X] Finish UI and Scan device buttons
 - [X] More buttons e.g. restart app button, close app button.
 - [X] Native scanning (not using air crack)
@@ -37,5 +36,5 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] Remove FileService and Artifacts
 - [X] Native Scanning - Null function isn't the only client communication. Need to work on native client detection!!
 - [X] Client information popup dialog page with close button
-- [ ] In native scanning i'm setting power to 10 - need to actually get power
-- [ ] Get more fields from native scanning, add into Client class and ClientInfoWindow
+- [X] In native scanning i'm setting power to 10 - need to actually get power
+- [X] Get more fields from native scanning, add into Client class and ClientInfoWindow
