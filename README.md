@@ -39,3 +39,4 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] In native scanning i'm setting power to 10 - need to actually get power
 - [X] Get more fields from native scanning, add into Client class and ClientInfoWindow
 - [X] Refactoring required - move OUI lookup out of DeviceService (?)
+- [ ] Need some kind of message displayed to user when network interface can't be located.

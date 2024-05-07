@@ -11,9 +11,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        this.Width = 800;
-        this.Height = 480;
-        //this.WindowState = WindowState.FullScreen;
+        //this.Width = 800;
+        //this.Height = 480;
+        this.WindowState = WindowState.FullScreen;
         //DataContext = new MainWindowViewModel();
     }
 
