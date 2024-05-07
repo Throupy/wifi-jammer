@@ -31,10 +31,11 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] Finish UI and Scan device buttons
 - [X] More buttons e.g. restart app button, close app button.
 - [X] Native scanning (not using air crack)
-- [ ] Add OUI-based device guessing from MAC address
+- [X] Add OUI-based device guessing from MAC address
 - [ ] Add pictures to README
 - [X] Remove FileService and Artifacts
 - [X] Native Scanning - Null function isn't the only client communication. Need to work on native client detection!!
 - [X] Client information popup dialog page with close button
 - [X] In native scanning i'm setting power to 10 - need to actually get power
 - [X] Get more fields from native scanning, add into Client class and ClientInfoWindow
+- [ ] Refactoring required - move OUI lookup out of DeviceService (?)
