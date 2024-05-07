@@ -17,13 +17,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 
 namespace JammerV1.ViewModels;
 
-public class Sample2Model {
-    public Sample2Model(int number) {
-        Number = number;
-    }
-    public int Number { get; set; }
-}
-
 public class MainWindowViewModel : INotifyPropertyChanged
 {
     // Constants
