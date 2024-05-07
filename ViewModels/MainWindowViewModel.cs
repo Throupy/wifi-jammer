@@ -32,6 +32,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     // Services
     private readonly IDeviceService _deviceService;
+    private readonly IOuiLookupService _ouiLookupService;
 
     // Private Variables
     private ObservableCollection<AP> _accessPoints;
@@ -98,7 +99,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         Console.WriteLine($"Finished, device name is {_deviceService.CaptureDevice.Name}");
     }
 
-    public MainWindowViewModel(IDeviceService deviceService)
+    public MainWindowViewModel(IDeviceService deviceService, IOuiLookupService ouiLookupService)
     {
         // Register commands
         ScanCommand = new RelayCommand(o => ExecuteScan());
@@ -107,7 +108,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         CloseCommand = new RelayCommand(ExecuteClose);
         // Finish off DI for services
         _deviceService = deviceService;
-        _deviceService.LoadOuiDictionary("/usr/share/ieee-data/oui.txt");
+        _ouiLookupService = ouiLookupService;
+        ouiLookupService.LoadOuiDictionary();
         FindDeviceCommand = new RelayCommand(o => FindDevice());
         // Open the device and update the UI.
         FindDevice();

@@ -15,6 +15,4 @@ public interface IDeviceService {
     Task Jam(IJammableDevice victim);
     Task<bool> ChangeChannel(int channel);
     Task<ObservableCollection<AP>> Scan(int secondsToRun);
-    void LoadOuiDictionary(string filePath);
-    string GetVendorByMacAddress(string macAddress);
 }

@@ -38,4 +38,4 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] Client information popup dialog page with close button
 - [X] In native scanning i'm setting power to 10 - need to actually get power
 - [X] Get more fields from native scanning, add into Client class and ClientInfoWindow
-- [ ] Refactoring required - move OUI lookup out of DeviceService (?)
+- [X] Refactoring required - move OUI lookup out of DeviceService (?)

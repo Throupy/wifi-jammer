@@ -27,8 +27,13 @@ public class DeviceService : IDeviceService {
     private static List<Client> AllClients = new List<Client>();
     private static List<BlockAckPacket> BlockAcks = new List<BlockAckPacket>();
 
-    private static Dictionary<string, string> ouiDictionary;
+    private IOuiLookupService _ouiLookupService;
 
+    public DeviceService(IOuiLookupService ouiLookupService) 
+    {
+        _ouiLookupService = ouiLookupService;
+    }
+    
     public async Task<bool> IsDeviceInMonitorMode(string deviceName) {
         // Trying to avoid dependency on aircrack-ng suite - use iwconfig with CliWrap.
         var stdOutBuffer = new StringBuilder();
@@ -36,34 +41,6 @@ public class DeviceService : IDeviceService {
             .WithArguments(new[] {"-c", $"iwconfig {deviceName} | grep Mode:Monitor"})
             .ExecuteBufferedAsync();
         return result.StandardOutput.Contains("Mode:Monitor");
-    }
-
-    public string GetVendorByMacAddress(string macAddress)
-    {
-        var oui = macAddress.Substring(0, 8).Replace(":",""); // Get the first three octets of the MAC address
-        if (ouiDictionary.TryGetValue(oui, out var vendor))
-        {
-            return vendor;
-        }
-
-        return "Unknown Vendor";
-    }
-
-    public void LoadOuiDictionary(string filePath) {
-        var dictionary = new Dictionary<string, string>();
-        var lines = File.ReadAllLines(filePath);
-
-        foreach (var line in lines)
-        {
-            if (line.Contains("(base 16)")) // Commonly this format is used in the file
-            {
-                var parts = line.Split(new[] { "(base 16)" }, StringSplitOptions.RemoveEmptyEntries);
-                var oui = parts[0].Trim().Replace("-", ":");
-                var vendorName = parts[1].Trim();
-                dictionary[oui] = vendorName;
-            }
-        }
-        ouiDictionary = dictionary;
     }
 
     public async Task<bool> SetMonitorMode(string deviceName) {
@@ -176,7 +153,7 @@ public class DeviceService : IDeviceService {
                         StationMAC = blockAck.DestinationAddress,
                         Power = Math.Abs(blockAck.Power),
                         DetectedAt = blockAck.DetectedAt,
-                        Vendor = GetVendorByMacAddress(blockAck.DestinationAddress)
+                        Vendor = _ouiLookupService.GetVendorByMacAddress(blockAck.DestinationAddress)
                     };
                 }
                 if (AccessPoints.Any(ap => ap.BSSID == blockAck.DestinationAddress)) {
@@ -186,7 +163,7 @@ public class DeviceService : IDeviceService {
                         StationMAC = blockAck.SourceAddress,
                         Power = Math.Abs(blockAck.Power),
                         DetectedAt = blockAck.DetectedAt,
-                        Vendor = GetVendorByMacAddress(blockAck.SourceAddress)
+                        Vendor = _ouiLookupService.GetVendorByMacAddress(blockAck.SourceAddress)
                     };
                 }
                 if (client != null) {
@@ -305,7 +282,7 @@ public class DeviceService : IDeviceService {
                         StationMAC = Station_MAC,
                         Power = power,
                         DetectedAt = e.Header.Timeval.Date,
-                        Vendor = GetVendorByMacAddress(Station_MAC)
+                        Vendor = _ouiLookupService.GetVendorByMacAddress(Station_MAC)
                     };
                     AllClients.Add(client);
                 }

@@ -21,6 +21,7 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
         services.AddSingleton<IDeviceService, DeviceService>();
+        services.AddSingleton<IOuiLookupService, OuiLookupService>();
         services.AddTransient<MainWindowViewModel>();
         _serviceProvider = services.BuildServiceProvider();
 
