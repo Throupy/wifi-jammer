@@ -53,6 +53,7 @@ namespace JammerV1.Models
             get => ParentAP.Channel;
             set => Channel = value;
         }
+        public string Vendor { get; set; }
 
         // Event declared in INotifyPropertyChanged interface
         public event PropertyChangedEventHandler PropertyChanged;

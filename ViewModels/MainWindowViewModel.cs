@@ -107,6 +107,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         CloseCommand = new RelayCommand(ExecuteClose);
         // Finish off DI for services
         _deviceService = deviceService;
+        _deviceService.LoadOuiDictionary("/usr/share/ieee-data/oui.txt");
         FindDeviceCommand = new RelayCommand(o => FindDevice());
         // Open the device and update the UI.
         FindDevice();

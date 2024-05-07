@@ -39,10 +39,13 @@
           <Run Text="dBm"/>
         </TextBlock>
       </StackPanel>
-      <!-- Need to do this stuff - currently isn't on Client object -->
       <StackPanel Spacing="20" Orientation="Horizontal">
         <TextBlock FontWeight="ExtraBold" Foreground="White" Text="First Seen: "/>
         <TextBlock Foreground="White" Text="{Binding client.DetectedAt}"/>
+      </StackPanel>
+      <StackPanel Spacing="20" Orientation="Horizontal">
+        <TextBlock FontWeight="ExtraBold" Foreground="White" Text="Vendor: "/>
+        <TextBlock Foreground="White" Text="{Binding client.Vendor}"/>
       </StackPanel>
     </StackPanel>
   </StackPanel>

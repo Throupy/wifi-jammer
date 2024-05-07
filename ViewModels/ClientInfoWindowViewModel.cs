@@ -25,7 +25,6 @@ namespace JammerV1.ViewModels
         private Client _client;
         public ICommand CloseCommand { get; }
 
-        // Class name the same.. use an _ i guess!
         public Client client {
             get => _client;
             set {
