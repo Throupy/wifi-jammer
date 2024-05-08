@@ -41,3 +41,4 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] Refactoring required - move OUI lookup out of DeviceService (?)
 - [ ] Need some kind of message displayed to user when network interface can't be located.
 - [ ] Client Info window shows taskbar 
+- [ ] Capturing handshake (and cracking?)
