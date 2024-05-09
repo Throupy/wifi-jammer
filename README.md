@@ -19,6 +19,8 @@ I made this as a learning project, and I have only tested this on my own network
 - A wireless adapter capable of monitor mode, I used the `ALFA AWUS036NH`
 - A case for the screen, I had one 3D printed from a design I found on Thingiverse [(link)](https://www.thingiverse.com/thing:1585924)
 
+<img src="Assets/device.jpeg" alt="Alt text" width="10000">
+
 ## TODO List
 - [X] Error handling for no network interfaces detected
 - [X] Improve JamAP and JamClient functions if necessary
