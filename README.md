@@ -34,7 +34,7 @@ I made this as a learning project, and I have only tested this on my own network
 - [X] More buttons e.g. restart app button, close app button.
 - [X] Native scanning (not using air crack)
 - [X] Add OUI-based device guessing from MAC address
-- [ ] Add pictures to README
+- [X] Add pictures to README
 - [X] Remove FileService and Artifacts
 - [X] Native Scanning - Null function isn't the only client communication. Need to work on native client detection!!
 - [X] Client information popup dialog page with close button
