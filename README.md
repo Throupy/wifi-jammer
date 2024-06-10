@@ -21,6 +21,18 @@ I made this as a learning project, and I have only tested this on my own network
 
 <img src="Assets/device.jpg" alt="Alt text" width="10000">
 
+## Usage
+The following commands worked for me when I tested them on Raspbian OS on my Raspberry Pi 3b+:
+```bash
+sudo apt-get install -y dotnet-sdk-8.0
+dotnet --version
+# here you should see 8.X.X, where X doesn't matter too much
+git clone https://github.com/Throupy/wifi-jammer.git
+cd wifi-jammer
+sudo dotnet publish -r linux-arm64 --self-contained --configuration Release
+./bin/Release/net8.0/linux-arm/JammerV1
+```
+
 ## TODO List
 - [X] Error handling for no network interfaces detected
 - [X] Improve JamAP and JamClient functions if necessary
